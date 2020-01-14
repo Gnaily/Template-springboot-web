@@ -5,21 +5,104 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>site.yl</groupId>
     <artifactId>template</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
+        <springboot.version>2.0.2.RELEASE</springboot.version>
+        <jooq.version>3.11.7</jooq.version>
+        <jquery.version>3.3.1</jquery.version>
     </properties>
 
 
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- HikariCP 连接池依赖，从父依赖获取版本 -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <!-- jooq -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -38,12 +121,79 @@
     </repositories>
 
 
+    <profiles>
 
-    <!-- Package as an executable jar -->
+        <profile>
+            <!-- 代码生成环境 -->
+            <id>code-gen</id> <!--环境id标识-->
+
+            <properties>
+                <!-- 代码生成配置文件目录 -->
+                <env.var.dir>env/code-gen</env.var.dir>
+            </properties>
+
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <!-- The jOOQ 代码生成插件 -->
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${jooq.version}</version>
+                        <configuration>
+                            <configurationFile>/src/main/resources/${env.var.dir}/jooq-codegen-conf.xml</configurationFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jooq-generate</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- test environment -->
+            <id>dev</id>
+
+            <properties>
+                <env.var.dir>env/dev</env.var.dir>
+            </properties>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <!-- test environment -->
+            <id>test</id>
+            <properties>
+                <env.var.dir>env/test</env.var.dir>
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <properties>
+                <env.var.dir>env/prod</env.var.dir>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <build>
 
         <plugins>
-
             <!-- maven编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -60,8 +210,54 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- generating build information containing the coordinates, name, and version of the project-->
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
         </plugins>
 
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+
+                <excludes>
+                    <exclude>env/dev/*</exclude>
+                    <exclude>env/test/*</exclude>
+                    <exclude>env/prod/*</exclude>
+                </excludes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources/${env.var.dir}</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>

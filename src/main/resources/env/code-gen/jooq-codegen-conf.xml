@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration
+	xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+	<!-- Configure the database connection here -->
+	<jdbc>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<url>jdbc:mysql://localhost:3306/app</url>
+		<user>root</user>
+		<password>123456</password>
+	</jdbc>
+
+	<generator>
+		<!-- The default code generator. You can override this one, to generate 
+			your own code style. Supported generators: - org.jooq.codegen.JavaGenerator 
+			- org.jooq.codegen.ScalaGenerator Defaults to org.jooq.codegen.JavaGenerator -->
+		<name>org.jooq.codegen.JavaGenerator</name>
+
+		<database>
+			<!-- The database type. The format here is: org.util.[database].[database]Database -->
+			<name>org.jooq.meta.mysql.MySQLDatabase</name>
+
+			<!-- The database schema (or in the absence of schema support, in your 
+				RDBMS this can be the owner, user, database name) to be generated -->
+			<inputSchema>appliction_store</inputSchema>
+
+			<!-- 包含需要生成代码的表 -->
+			<includes>(table_a)|(table_b)</includes>
+
+
+			<!-- 需要过滤的表 -->
+			<excludes></excludes>
+		</database>
+
+
+		<generate>
+			<!--生成dao和pojo -->
+			<daos>false</daos>
+			<pojos>false</pojos>
+			<!--把数据库时间类型映射到java 8时间类型 -->
+			<javaTimeTypes>true</javaTimeTypes>
+			<!--<interfaces>true</interfaces> -->
+			<!--不在生成的代码中添加spring注释，比如@Repository -->
+			<springAnnotations>false</springAnnotations>
+		</generate>
+
+		<target>
+			<!-- The destination package of your generated classes (within the destination 
+				directory) -->
+			<packageName>site.yl.template.share.object.database</packageName>
+
+			<!-- The destination directory of your generated classes. Using Maven 
+				directory layout here -->
+
+			<directory>/src/main/java</directory>
+		</target>
+	</generator>
+</configuration>

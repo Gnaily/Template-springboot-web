@@ -1,0 +1,13 @@
+spring:
+  http:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  #Thymeleaf 模板引擎配置
+  thymeleaf:
+    encoding: UTF-8
+    cache: false
+    mode: HTML
+    prefix: classpath:/templates/
+    template-resolver-order: 100

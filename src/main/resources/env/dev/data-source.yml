@@ -1,0 +1,21 @@
+datasource:
+  hikari:
+      pool-name: HikariCP
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/db2?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 123456
+      # 最小空闲连接数量
+      min-idle: 5
+      # 空闲连接存活最大时间，默认600000（10分钟)
+      idle-timeout: 600000
+      #连接池最大连接数
+      max-pool-size: 5
+      #从池返回的连接的默认自动提交行为
+      auto-commit: true
+      #池中连接的最长生命周期，值0表示无限生命周期
+      max-lifetime: 1800000
+      #连接超时时间30秒
+      connection-timeout: 30000
+      #连接测试
+      connection-test-query: SELECT 1

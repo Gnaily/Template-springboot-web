@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>这是一个测试页面</h3>
+
+<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var SITE_PATH="https://www.youkaoshi.cn/index.php"
+    var code="9839735962d016b61ea126575f22fb99"
+    $("#students").click(function(){
+
+        $.ajax({
+            url : SITE_PATH,
+            type : 'GET',
+            dataType : 'json',
+            data:{
+                option:"com_exams",
+                task:"api.getStudentFields",
+                format:"raw",
+                code:code
+            },
+            success : function(data) {
+                $("#text").html(data);
+            },
+            error : function(msg) {
+                $("#text").html(msg);
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
+
