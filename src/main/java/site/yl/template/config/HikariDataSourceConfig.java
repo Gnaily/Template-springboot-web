@@ -55,7 +55,7 @@ public class HikariDataSourceConfig {
 	private long idleTimeout;
 	
 	
-	@Bean(name="dataSourceFirst")
+	@Bean(name="dataSource")
 	public DataSource dataSource() {
 		HikariDataSource hds=new HikariDataSource();
 		hds.setPoolName(poolName);
@@ -70,7 +70,7 @@ public class HikariDataSourceConfig {
 		hds.setMaxLifetime(maxLifetimeMs);
 		hds.setConnectionTimeout(connectionTimeoutMs);
 		hds.setConnectionTestQuery(connectionTestQuery);
-		log.info("dataSourceFirst config finish");
+		log.info("dataSource config finish");
 		return hds;
 	}
 

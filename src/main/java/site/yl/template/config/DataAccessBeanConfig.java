@@ -58,7 +58,7 @@ public class DataAccessBeanConfig {
 				new DefaultConfiguration()
 				.set(settings)
 				.set(new ThreadLocalTransactionProvider(connProvider))
-		    .set(SQLDialect.H2));
+		        .set(SQLDialect.MYSQL_5_7));
 		log.info("initial dao Bean finish:{}",dc);
 		return dc;
 	}
