@@ -1,4 +1,5 @@
 spring:
+  #http配置
   http:
     encoding:
       enabled: true
