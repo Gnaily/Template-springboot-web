@@ -7,7 +7,7 @@ import static ch.qos.logback.classic.Level.INFO
 import static ch.qos.logback.core.spi.FilterReply.ACCEPT
 
 //see  http://logback.qos.ch/manual/groovy.html
-//没分钟扫描一次配置
+//每分钟扫描一次日志配置
 scan()
 
 def log_home = System.getProperty("LOG_HOME");
