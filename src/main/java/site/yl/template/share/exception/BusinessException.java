@@ -16,12 +16,12 @@ public class BusinessException extends RuntimeException {
 
 	private String code;
 
-	public BusinessException(BECase exceptionCase) {
+	public BusinessException(BeCase exceptionCase) {
 		msgBuilder.append(exceptionCase.getMessage()).append(" ");
 		this.code = exceptionCase.getCode();
 	}
 
-	public static BusinessException exception(BECase cause) {
+	public static BusinessException exception(BeCase cause) {
 		return new BusinessException(cause);
 	}
 
@@ -62,12 +62,12 @@ public class BusinessException extends RuntimeException {
 	/**
 	 * 业务异常情景
 	 */
-	public static class BECase {
+	public static class BeCase {
 
 		private final String code;
 		private String message;
 
-		public BECase(String code, String message) {
+		public BeCase(String code, String message) {
 			this.code = code;
 			this.message = message;
 		}
