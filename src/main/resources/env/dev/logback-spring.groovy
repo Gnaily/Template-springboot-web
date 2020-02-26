@@ -2,7 +2,6 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.filter.LevelFilter
 import ch.qos.logback.core.ConsoleAppender
 
-import static ch.qos.logback.classic.Level.DEBUG
 import static ch.qos.logback.classic.Level.INFO
 import static ch.qos.logback.core.spi.FilterReply.ACCEPT
 
@@ -60,5 +59,5 @@ appender("FILE", RollingFileAppender) {
     }
 }
 
-root(DEBUG, ["CONSOLE", "FILE"])
-logger("org.springframework", INFO)
+root(INFO, ["CONSOLE", "FILE"])
+logger("site.yl", DEBUG)
