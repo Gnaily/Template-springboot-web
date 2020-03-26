@@ -1,4 +1,11 @@
 spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+  #http配置
   http:
     encoding:
       enabled: true
