@@ -2,9 +2,8 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.filter.LevelFilter
 import ch.qos.logback.core.ConsoleAppender
 
-import static ch.qos.logback.classic.Level.INFO
+import static ch.qos.logback.classic.Level.WARN
 import static ch.qos.logback.core.spi.FilterReply.ACCEPT
-
 //see  http://logback.qos.ch/manual/groovy.html
 //每分钟扫描一次日志配置
 scan()
@@ -29,6 +28,8 @@ appender("CONSOLE", ConsoleAppender) {
         pattern = "%d{yyyy/MM/dd-HH:mm:ss} %-5level [%thread] %class{5}:%line>>%msg%n"
     }
 }
+
+
 def byMinutes  = timestamp("yyyy-MM-dd'T'HH-mm")
 //文件日志配置
 appender("FILE", RollingFileAppender) {
@@ -40,7 +41,7 @@ appender("FILE", RollingFileAppender) {
     }
 
     filter(LevelFilter) {
-        level = INFO
+        level = WARN
         onMatch = ACCEPT
         //onMismatch = DENY
     }
@@ -59,7 +60,4 @@ appender("FILE", RollingFileAppender) {
     }
 }
 
-root(INFO, ["CONSOLE", "FILE"])
-
-//-----------------------some debug logger here-------------------------
-logger("site.yl", DEBUG)
+root(WARN, ["FILE"])

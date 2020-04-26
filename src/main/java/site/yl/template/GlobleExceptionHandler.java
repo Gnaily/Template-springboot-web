@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jooq.exception.DataAccessException;
 import org.springframework.core.env.Environment;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -210,7 +209,7 @@ public class GlobleExceptionHandler extends ResponseEntityExceptionHandler{
 
   @ExceptionHandler({DataAccessException.class})
   public ResponseEntity<IResult> handleIntegrityViolationException(HttpServletRequest request,
-                                                                      DataIntegrityViolationException exception) {
+                                                                   DataAccessException exception) {
     logError(request,exception);
     HttpStatus status=HttpStatus.INTERNAL_SERVER_ERROR;
 
