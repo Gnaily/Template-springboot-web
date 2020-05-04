@@ -1,4 +1,4 @@
-package site.yl.template.share.object.result;
+package site.yl.template.share.apiresult;
 
 public class $R {
     protected static String OK="ok";

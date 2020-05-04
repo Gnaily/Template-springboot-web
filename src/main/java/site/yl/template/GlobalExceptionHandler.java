@@ -23,8 +23,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import site.yl.template.share.exception.BusinessException;
-import site.yl.template.share.object.result.$R;
-import site.yl.template.share.object.result.IResult;
+import site.yl.template.share.apiresult.$R;
+import site.yl.template.share.apiresult.IResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -32,12 +32,12 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Set;
 @ControllerAdvice
-public class GlobleExceptionHandler extends ResponseEntityExceptionHandler{
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
-  private final Log logger = LogFactory.getLog(GlobleExceptionHandler.class);
+  private final Log logger = LogFactory.getLog(GlobalExceptionHandler.class);
 
   private final Environment env;
-  public GlobleExceptionHandler(Environment environment){
+  public GlobalExceptionHandler(Environment environment){
     this.env=environment;
   }
 
@@ -283,7 +283,7 @@ public class GlobleExceptionHandler extends ResponseEntityExceptionHandler{
     return env.acceptsProfiles("prod");
   }
 
-  private  boolean isDevolopEnv(){
+  private  boolean isDevelopEnv(){
     return env.acceptsProfiles("dev");
   }
 
